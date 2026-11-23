@@ -214,3 +214,43 @@
     display: inline !important;
   }
 }
+/* BROTHERS TC · New hej! BROTHERS header · v10 */
+/* 기존 앱 코드와 회비 장부는 건드리지 않는 헤더 전용 패치입니다. */
+.site-top {
+  min-height: 118px;
+  height: 118px;
+}
+.site-top .brand.brand-header {
+  display: flex;
+  align-items: center;
+  flex: 0 1 420px;
+  width: 420px;
+  height: 108px;
+  min-width: 0;
+  background-image: url("brothers-header-wordmark.png");
+  background-size: contain;
+  background-position: center left;
+  background-repeat: no-repeat;
+}
+.site-top .brand.brand-header .brand-ball,
+.site-top .brand.brand-header .brand-copy {
+  display: none !important;
+}
+@media (max-width: 760px) {
+  .site-top { height: 82px; min-height: 82px; }
+  .site-top .brand.brand-header {
+    flex: 0 1 210px;
+    width: 210px;
+    height: 72px;
+    background-position: center left;
+  }
+  .site-top .top-right { gap: 6px; flex-shrink: 0; }
+  .site-top .mode-flag { display: none; }
+}
+@media (max-width: 390px) {
+  .site-top .brand.brand-header { flex-basis: 174px; width: 174px; height: 68px; }
+  .site-top .account { font-size: 11px; padding: 7px 8px; }
+}
+@media (max-width: 340px) {
+  .site-top .brand.brand-header { flex-basis: 147px; width: 147px; height: 62px; }
+}
