@@ -193,3 +193,24 @@
 
 /* v6 one-time starter data admin import */
 .admin-import-panel{display:flex;justify-content:space-between;align-items:center;gap:18px;border:1px solid #b8d5ac;background:#f0f9e8;padding:19px 21px;border-radius:16px;margin-bottom:15px}.admin-import-panel h3{font-size:18px;margin:0 0 5px}.admin-import-panel p{font-size:12px;margin:0;color:#617d58;max-width:560px}.admin-import-panel .btn{flex:0 0 auto}@media(max-width:760px){.admin-import-panel{flex-direction:column;align-items:stretch;padding:15px}.admin-import-panel .btn{width:100%}}
+
+/* BROTHERS_LEDGER_DATE_DISPLAY_FIX_20261123 */
+
+/* PC: 긴 날짜만 표시 */
+.public-ledger-table .ledger-date-full {
+  display: inline !important;
+  white-space: nowrap;
+}
+.public-ledger-table .ledger-date-short {
+  display: none !important;
+}
+
+/* 모바일: 짧은 날짜만 표시 */
+@media (max-width: 760px) {
+  .public-ledger-table .ledger-date-full {
+    display: none !important;
+  }
+  .public-ledger-table .ledger-date-short {
+    display: inline !important;
+  }
+}
