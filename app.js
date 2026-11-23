@@ -2,6 +2,19 @@
 (() => {
   'use strict';
   const $ = s => document.querySelector(s);
+  // Keep desktop and phone ledger dates mutually exclusive even if styles.css
+  // has not been updated. This only affects presentation, never Firestore data.
+  const dateStyles = document.createElement('style');
+  dateStyles.id = 'brothers-ledger-date-fix';
+  dateStyles.textContent = `
+    .public-ledger-table .ledger-date-full { display: inline !important; white-space: nowrap; }
+    .public-ledger-table .ledger-date-short { display: none !important; }
+    @media (max-width: 760px) {
+      .public-ledger-table .ledger-date-full { display: none !important; }
+      .public-ledger-table .ledger-date-short { display: inline !important; white-space: nowrap; }
+    }
+  `;
+  document.head.appendChild(dateStyles);
   const storage={get(k){try{return localStorage.getItem(k);}catch(e){return null;}},set(k,v){try{localStorage.setItem(k,v);}catch(e){}}};
   const esc = v => String(v ?? '').replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
   const today = () => { const d = new Date(); return new Date(d.getTime()-d.getTimezoneOffset()*60000).toISOString().slice(0,10); };
