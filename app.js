@@ -377,7 +377,26 @@
   async function adminLogin(){if(state.admin){state.page='admin';render();window.scrollTo({top:0,behavior:'smooth'});return;}if(state.mode==='demo'){modal('운영진 모드 · 샘플',`${field('시연용 관리자 코드','pin','','password','required autocomplete="off"')}<div class="hint">시연용 비밀번호: <strong>1234</strong><br>실제 사이트는 Firebase에 등록한 관리자 Google 계정으로 보호됩니다.</div>`,async f=>{if(String(f.get('pin'))!=='1234')throw Error('코드가 맞지 않습니다.');state.admin=true;state.page='admin';render();});return;}const adminList=(window.BROTHERS_CONFIG?.adminEmails?.length?window.BROTHERS_CONFIG.adminEmails:[window.BROTHERS_CONFIG?.adminEmail||'']).filter(Boolean);if(!adminList.length){toast('firebase-config.js에 관리자 이메일을 입력해 주세요.');return;}try{const provider=new state.firebase.auth.GoogleAuthProvider();const result=await state.firebase.auth.signInWithPopup(state.firebase.authentication,provider);if(!adminList.map(x=>String(x).trim().toLowerCase()).includes(String(result.user?.email||'').toLowerCase())){toast('등록된 운영진 Google 계정으로 로그인해 주세요.');}else{state.page='admin';render();}}catch(e){toast('관리자 인증 실패: '+(e.code||e.message));}}
   async function adminLogout(){if(state.mode==='demo'){state.admin=false;state.page='home';render();toast('운영진 모드를 종료했습니다.');return;}if(state.firebase?.authentication){await state.firebase.auth.signOut(state.firebase.authentication);state.page='home';render();}}
   function clickHandler(e){const modalShade=e.target.closest('[data-close-shade]');if(modalShade&&e.target===modalShade){closeModal();return;}if(e.target.closest('[data-close-modal]')){closeModal();return;}
-    const p=e.target.closest('[data-page]');if(p){e.preventDefault();state.page=p.dataset.page;state.search='';render();window.scrollTo({top:0,behavior:'smooth'});return;}
+    // Clicking the attendance CTA in the weekly board should show the member buttons,
+    // not reset the viewport to the top of the attendance screen.
+    const p=e.target.closest('[data-page]');
+    if(p){
+      e.preventDefault();
+      const jumpToMembers=p.dataset.page==='attendance' && !!p.closest('.weekday-detail-foot');
+      state.page=p.dataset.page;
+      state.search='';
+      render();
+      if(jumpToMembers){
+        requestAnimationFrame(()=>{
+          const grid=document.getElementById('member-pick-grid');
+          const section=grid&&grid.closest('section.panel');
+          (section||grid)?.scrollIntoView({behavior:'smooth',block:'start'});
+        });
+      }else{
+        window.scrollTo({top:0,behavior:'smooth'});
+      }
+      return;
+    }
     const wk=e.target.closest('[data-week]');if(wk){if(wk.dataset.week==='today'){state.weekOffset=0;state.selectedDate=initialDate();}else{state.weekOffset+=(wk.dataset.week==='next'?1:-1);state.selectedDate=weekDays()[0];}render();return;}
     const day=e.target.closest('[data-date]');if(day){state.selectedDate=day.dataset.date;render();return;}
     const name=e.target.closest('[data-member-choose]');if(name){chooseMember(name.dataset.memberChoose);return;}
