@@ -1,3 +1,4 @@
+/* BROTHERS_TC_V14_BANK_ACCOUNT_GUIDE_20261124 */
 /* BROTHERS_TC_V12_PC_BALANCE_VISIBLE_20261124 */
 /* BROTHERS TC CLUB HUB · no-login member attendance, admin-only management */
 (() => {
@@ -40,6 +41,7 @@
   const fmtMoney = n => Number(n||0).toLocaleString('ko-KR')+'원';
   const fmtDay = s => { if(!s) return ''; const a=String(s).slice(0,10).split('-').map(Number); const d=new Date(a[0],a[1]-1,a[2]);return `${a[1]}.${String(a[2]).padStart(2,'0')} (${['일','월','화','수','목','금','토'][d.getDay()]})`;};
   const uid=()=> 'id'+Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+  const CLUB_BANK = { bank: '카카오뱅크', number: '79420935851', holder: '문정준' };
   const CHANNEL_URL = 'https://www.youtube.com/@BROTHERSTC';
   const KMA_WEATHER_URL = 'https://www.weather.go.kr/w/index.do#dong/4148052000/37.7557185972725/126.784778250987/%EA%B2%BD%EA%B8%B0%20%ED%8C%8C%EC%A3%BC%EC%8B%9C%20%EA%B8%88%EB%A6%89%EB%8F%99/SCH/%ED%8C%8C%EC%A3%BC%EC%8A%A4%ED%83%80%EB%94%94%EC%9B%80%20%ED%85%8C%EB%8B%88%EC%8A%A4%EC%9E%A5';
   const BONGIL_CCTV_URL = 'https://trafficcctv.paju.go.kr:443/live/cctv_75.stream/playlist.m3u8';
@@ -252,7 +254,8 @@
     if(!rows)return `<div class="hint">공개 회비 현황이 아직 게시되지 않았습니다. 운영진이 관리자 페이지에서 <b>공개 장부 갱신</b>을 눌러주면 표시됩니다.</div>`;
     return `<div class="table-wrap"><table class="data-table"><thead><tr><th>회원</th><th style="text-align:right">월 회비</th><th style="text-align:right">납부액</th><th>상태</th></tr></thead><tbody>${rows.map(m=>{const amt=Number(m.paid||0),due=Number(m.due||0);const status=due===0?'면제':amt>=due?'완납':amt>0?'일부납부':'미납';return `<tr><td><strong>${esc(m.name)}</strong></td><td style="text-align:right">${fmtMoney(due)}</td><td style="text-align:right">${fmtMoney(amt)}</td><td><span class="tag ${status==='완납'?'paid':status==='미납'?'unpaid':''}">${status}</span></td></tr>`;}).join('')||'<tr><td colspan="4" class="empty-table">등록된 회원이 없습니다.</td></tr>'}</tbody></table></div>`;
   }
-  function fees(){const s=summaryFor(state.month);const pct=s.due?Math.min(100,Math.round(s.paid/s.due*100)):0;const month=state.month;const all=activeMembers();const pm=state.payments.filter(x=>x.month===month);return `${pageTitle('CLUB ACCOUNTING','회비 및 운영 현황','회비 입금자·귀속월과 클럽 운영 입출금 내역을 모두에게 공개합니다.',monthControl())}<div class="tc-balance-feature-v12" data-feature="pc-mobile-balance-v12">${balanceHero()}</div><div class="kpi-row"><div class="kpi"><span>${esc(month)} 납부 완료</span><b>${s.paidMembers}<small style="font-size:12px;color:#889"> / ${s.members}명</small></b></div><div class="kpi"><span>선택 월 회비 납부액</span><b>${fmtMoney(s.paid)}</b></div><div class="kpi"><span>회비 수납률 (금액)</span><b>${pct}%</b></div></div><section class="panel"><div class="panel-head"><h3>이번 달 회비 집계</h3><span class="tag">운영진이 입력한 자료 기준</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div style="display:flex;justify-content:space-between;gap:8px;margin-top:12px" class="muted small"><span>수납 ${fmtMoney(s.paid)}</span><span>예상 ${fmtMoney(s.due)}</span></div><div class="hint">입금일 기준 장부에는 회원 이름과 회비 귀속월을 표시합니다. 월별 납부액은 귀속월 기준이므로 선납분은 입금일과 귀속월이 다를 수 있습니다. 현재 잔액은 입력된 누적 입금(이월잔액 포함)에서 지출을 뺀 장부 계산액입니다. 실제 통장 잔액과 정기적으로 대조해 주세요.</div></section>
+  function bankAccountNotice(){return `<section class="tc-bank-account-v14" aria-label="클럽 회비 입금 계좌 안내"><div class="tc-bank-info-v14"><div class="tc-bank-kicker-v14">💳 회비 입금 계좌</div><div class="tc-bank-line-v14"><span class="tc-bank-name-v14">${esc(CLUB_BANK.bank)}</span><strong class="tc-bank-number-v14">${esc(CLUB_BANK.number)}</strong></div><div class="tc-bank-holder-v14">예금주 <b>${esc(CLUB_BANK.holder)}</b></div></div><button type="button" class="tc-bank-copy-v14" data-action="copy-club-bank" aria-label="회비 입금 계좌번호 복사">계좌번호 복사 ⧉</button></section>`;}
+  function fees(){const s=summaryFor(state.month);const pct=s.due?Math.min(100,Math.round(s.paid/s.due*100)):0;const month=state.month;const all=activeMembers();const pm=state.payments.filter(x=>x.month===month);return `${pageTitle('CLUB ACCOUNTING','회비 및 운영 현황','회비 입금자·귀속월과 클럽 운영 입출금 내역을 모두에게 공개합니다.',monthControl())}<div class="tc-balance-feature-v12" data-feature="pc-mobile-balance-v12">${balanceHero()}</div>${bankAccountNotice()}<div class="kpi-row"><div class="kpi"><span>${esc(month)} 납부 완료</span><b>${s.paidMembers}<small style="font-size:12px;color:#889"> / ${s.members}명</small></b></div><div class="kpi"><span>선택 월 회비 납부액</span><b>${fmtMoney(s.paid)}</b></div><div class="kpi"><span>회비 수납률 (금액)</span><b>${pct}%</b></div></div><section class="panel"><div class="panel-head"><h3>이번 달 회비 집계</h3><span class="tag">운영진이 입력한 자료 기준</span></div><div class="bar-track"><div class="bar-fill" style="width:${pct}%"></div></div><div style="display:flex;justify-content:space-between;gap:8px;margin-top:12px" class="muted small"><span>수납 ${fmtMoney(s.paid)}</span><span>예상 ${fmtMoney(s.due)}</span></div><div class="hint">입금일 기준 장부에는 회원 이름과 회비 귀속월을 표시합니다. 월별 납부액은 귀속월 기준이므로 선납분은 입금일과 귀속월이 다를 수 있습니다. 현재 잔액은 입력된 누적 입금(이월잔액 포함)에서 지출을 뺀 장부 계산액입니다. 실제 통장 잔액과 정기적으로 대조해 주세요.</div></section>
     <div class="section-head"><div><h2>공개 입출금 장부</h2><p>누가 몇 월 회비를 납부했는지 입금일과 금액을 함께 공개합니다.</p></div></div><section class="panel">${ledgerTable(month)}</section>
     <div class="section-head"><div><h2>${esc(month)} 회원별 회비 납부 현황</h2><p>전체 회원이 이름별 납부액과 상태를 확인할 수 있습니다.</p></div></div>
     <section class="panel">${publicPaymentTable(month)}<div class="hint" style="margin-top:14px">개인별 회비 정보는 클럽 회원뿐 아니라 이 홈페이지 주소를 아는 누구나 열람할 수 있습니다. 계좌번호·연락처·은행 거래메모는 공개하지 않습니다.</div></section>
@@ -384,6 +387,13 @@
     const rv=e.target.closest('[data-rsvp]');if(rv){rsvp(rv.dataset.rsvp);return;}
     const b=e.target.closest('[data-action]');if(!b)return;const action=b.dataset.action,id=b.dataset.id;
     if(action==='copy-link'){if(state.mode!=='cloud'){toast('공유 사이트를 개설한 뒤 링크를 복사할 수 있습니다.');return;}const link=window.location.href;Promise.resolve(navigator.clipboard?.writeText(link)).then(()=>toast('사이트 링크를 복사했습니다. 카카오톡에 붙여넣으세요.')).catch(()=>prompt('이 주소를 복사해 주세요.',link));return;}
+    if(action==='copy-club-bank'){
+      const value=CLUB_BANK.number;
+      if(navigator.clipboard?.writeText){
+        navigator.clipboard.writeText(value).then(()=>toast('클럽 계좌번호가 복사되었습니다.')).catch(()=>{window.prompt('계좌번호를 복사하세요.',value);});
+      }else{window.prompt('계좌번호를 복사하세요.',value);}
+      return;
+    }
     if(action==='how-connect'){alert('현재 샘플 모드에서는 변경 내용이 이 브라우저에만 저장됩니다. 다운로드한 ZIP 파일의 README.md에 있는 Firebase + GitHub Pages 연결 안내를 따라 설정하면 모든 회원이 같은 출석·공지 정보를 실시간 공유할 수 있습니다.');return;}
     if(action==='admin-login'){adminLogin();return;}
     if(action==='admin-logout'){adminLogout().catch(err=>toast(err.message||err));return;}
@@ -407,6 +417,32 @@
   function changeHandler(e){if(e.target.id==='member-picker'){state.selectedMember=e.target.value;storage.set('brotherstc_selected_member',state.selectedMember);render();}if(e.target.id==='monthPicker'){state.month=e.target.value||monthNow();render();}}
   function inputHandler(e){if(e.target.id==='member-search'){state.search=e.target.value;const v=state.search.trim();const grid=$('#member-pick-grid');if(grid)grid.innerHTML=activeMembers().filter(m=>m.name.includes(v)).map(m=>{const st=responseOf(state.selectedDate,m.id);return `<button class="member-pick ${st?'pick-'+st:''}" data-member-choose="${esc(m.id)}"><span class="pick-name">${esc(m.name)}</span><span class="pick-status">${st==='yes'?'✓ 참석':st==='maybe'?'? 미정':st==='no'?'× 불참':'선택하기'}</span></button>`;}).join('')||'<div class="empty">검색된 회원이 없습니다.</div>';}}
   function addBalanceStyles(){if(document.getElementById('tc-balance-styles'))return;const style=document.createElement('style');style.id='tc-balance-styles';style.textContent='/* Balance feature · v11 */\n.tc-balance-hero{background:linear-gradient(117deg,#14251a,#294a2c);color:#fff;border-radius:22px;margin:0 0 18px;padding:27px 32px;display:flex;justify-content:space-between;align-items:center;gap:28px;box-shadow:0 14px 30px #0a231522}\n.tc-balance-main{flex:1;min-width:0}\n.tc-balance-title{font-size:17px;font-weight:850;color:#dbeec9;letter-spacing:.2px}\n.tc-balance-dot{color:#b9f24a;margin-right:6px;font-size:13px}\n.tc-balance-number{font-size:clamp(39px,5vw,62px);font-weight:950;line-height:1.2;letter-spacing:-2px;white-space:nowrap;margin:8px 0;color:#fff;font-variant-numeric:tabular-nums}\n.tc-balance-number small{font-size:22px;font-weight:780;margin-left:6px;color:#cbe7b9;letter-spacing:0}\n.tc-balance-unset{font-size:24px;font-weight:850;margin:12px 0;color:#d0e1c8}\n.tc-balance-caption{font-size:12px;color:#b6d1b0;margin:7px 0 0;line-height:1.7}\n.tc-balance-side{min-width:178px;display:flex;flex-direction:column;gap:12px;border-left:1px solid #ffffff30;padding-left:22px}\n.tc-balance-stat{display:flex;flex-direction:column;gap:2px;color:#b4cdb2;font-size:12px}\n.tc-balance-stat b{color:#f6fff1;font-size:16px;font-weight:850;font-variant-numeric:tabular-nums}\n.tc-balance-adjust{padding:9px 11px;background:#d6fc84;color:#183015;border:0;border-radius:10px;font-weight:850;font-size:12px;cursor:pointer;margin-top:2px}\n.tc-balance-adjust:hover{background:#c6f069}\n@media(max-width:760px){.tc-balance-hero{padding:22px 19px;flex-direction:column;align-items:stretch;gap:15px;border-radius:17px}.tc-balance-number{font-size:clamp(37px,11vw,52px);margin:8px 0 4px}.tc-balance-number small{font-size:19px}.tc-balance-title{font-size:15px}.tc-balance-side{min-width:0;border-left:0;border-top:1px solid #ffffff30;padding:12px 0 0;display:grid;grid-template-columns:1fr 1fr;gap:10px}.tc-balance-adjust{grid-column:span 2}.tc-balance-stat b{font-size:14px}}\n@media(max-width:350px){.tc-balance-number{font-size:36px}}\n/* v12 desktop + mobile balance card visible */\n.tc-balance-feature-v12{display:block!important;visibility:visible!important;opacity:1!important;width:100%;margin-bottom:18px;clear:both}\n.tc-balance-feature-v12 .tc-balance-hero{display:flex!important;visibility:visible!important;opacity:1!important;width:100%;min-height:170px}\n.tc-balance-feature-v12 .tc-balance-number{display:block!important;font-size:clamp(42px,5vw,68px)!important;font-weight:950!important}\n@media(max-width:760px){.tc-balance-feature-v12 .tc-balance-hero{display:flex!important;flex-direction:column!important;min-height:0}.tc-balance-feature-v12 .tc-balance-number{font-size:clamp(36px,11vw,54px)!important}}\n';document.head.appendChild(style);}
+  function addClubBankStyles(){
+    if(document.getElementById('brothers-bank-account-v14'))return;
+    const style=document.createElement('style');
+    style.id='brothers-bank-account-v14';
+    style.textContent=`
+      .tc-bank-account-v14{display:flex;align-items:center;justify-content:space-between;gap:20px;background:#fff;border:1px solid #dce8d3;border-radius:19px;padding:20px 24px;margin:0 0 18px;box-shadow:0 7px 18px rgba(21,40,18,.035)}
+      .tc-bank-info-v14{min-width:0}
+      .tc-bank-kicker-v14{font-size:13px;font-weight:850;color:#42753a;margin-bottom:8px}
+      .tc-bank-line-v14{display:flex;align-items:baseline;gap:15px;flex-wrap:wrap}
+      .tc-bank-name-v14{font-size:16px;font-weight:800;color:#2a392b}
+      .tc-bank-number-v14{font-size:clamp(21px,2.6vw,29px);font-weight:950;line-height:1.25;letter-spacing:.3px;color:#132719;font-variant-numeric:tabular-nums;white-space:nowrap}
+      .tc-bank-holder-v14{font-size:13px;color:#667568;margin-top:6px}
+      .tc-bank-holder-v14 b{color:#304534;margin-left:7px}
+      .tc-bank-copy-v14{flex:0 0 auto;border:1px solid #c9e4ab;border-radius:12px;background:#e9f9d7;color:#285129;font-size:13px;font-weight:850;padding:13px 17px;min-height:45px;cursor:pointer}
+      .tc-bank-copy-v14:hover,.tc-bank-copy-v14:focus-visible{background:#d9f2be;outline-color:#78ad48}
+      @media (max-width:760px){
+        .tc-bank-account-v14{padding:17px 16px;gap:12px;flex-direction:column;align-items:stretch;border-radius:16px}
+        .tc-bank-line-v14{gap:5px;flex-direction:column;align-items:flex-start}
+        .tc-bank-name-v14{font-size:14px}
+        .tc-bank-number-v14{font-size:27px}
+        .tc-bank-copy-v14{width:100%;padding:11px;min-height:41px}
+      }
+    `;
+    document.head.appendChild(style);
+  }
+  addClubBankStyles();
   addBalanceStyles();
   document.addEventListener('click',clickHandler);document.addEventListener('change',changeHandler);document.addEventListener('input',inputHandler);
   startFirebase();
