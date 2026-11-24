@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="ko">
 <head>
@@ -7,6 +8,7 @@
   <meta name="robots" content="noindex, nofollow">
   <meta name="description" content="브라더스 테니스클럽 출석 현황, 회비·현재잔액, 회원명부, 공지, 유튜브 채널을 확인하는 클럽 허브">
   <title>브라더스테니스클럽 HUB</title>
+
   <!-- KakaoTalk and social sharing preview; site functions are unchanged -->
   <link rel="canonical" href="https://drfoods.github.io/brotherstc/">
   <meta property="og:type" content="website">
@@ -21,18 +23,35 @@
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="1200">
   <meta property="og:image:alt" content="BROTHERS TENNIS CLUB 방패형 로고">
+
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="브라더스테니스클럽 HUB">
   <meta name="twitter:description" content="출석, 회비·잔액, 회원명부, 공지사항, 유튜브 채널">
   <meta name="twitter:image" content="https://drfoods.github.io/brotherstc/kakao-share-logo.png">
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link rel="apple-touch-icon" href="kakao-share-logo.png">
+
+  <!-- BROTHERS TC Bookmark Icons v15 -->
+  <link rel="icon" type="image/png" sizes="32x32" href="./bro-favicon-32.png?v=15">
+  <link rel="icon" type="image/png" sizes="192x192" href="./bro-favicon-192.png?v=15">
+  <link rel="shortcut icon" href="./favicon.ico?v=15">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=15">
+
+  <!-- Site styles and application -->
   <link rel="stylesheet" href="styles.css">
   <script src="firebase-config.js"></script>
   <script src="app.js" defer></script>
 </head>
 <body>
-  <div id="app"><div class="loading-page"><div class="loader-brand"><img src="brand-ball.png" alt="BROTHERS TC" class="loader-ball"><div><strong>BROTHERS TENNIS CLUB HUB</strong><span>브라더스테니스클럽 HUB 로딩 중...</span></div></div></div></div>
+  <div id="app">
+    <div class="loading-page">
+      <div class="loader-brand">
+        <img src="brand-ball.png" alt="BROTHERS TC" class="loader-ball">
+        <div>
+          <strong>BROTHERS TENNIS CLUB HUB</strong>
+          <span>브라더스테니스클럽 HUB 로딩 중...</span>
+        </div>
+      </div>
+    </div>
+  </div>
   <div id="modalRoot"></div>
   <div id="toast" role="status" aria-live="polite"></div>
 </body>
