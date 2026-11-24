@@ -1,0 +1,62 @@
+name: BR TC weather (KMA 7am) and Pages
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # 매시 17분(UTC). Actions 일정 작업은 지연될 수 있습니다.
+    - cron: '17 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: brothers-weather-pages
+  cancel-in-progress: false
+
+jobs:
+  update-and-deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Refresh KMA forecast
+        env:
+          KMA_SERVICE_KEY: ${{ secrets.KMA_SERVICE_KEY }}
+        run: |
+          if [ -n "$KMA_SERVICE_KEY" ]; then
+            python scripts/update_kma_weather.py || echo "기상청 API 갱신 실패: 기존 weather.json 유지"
+          else
+            echo "KMA_SERVICE_KEY 미설정: 날씨 자동 갱신은 아직 시작되지 않았습니다."
+          fi
+      - name: Commit newest public weather JSON
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add weather.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore: refresh public KMA forecast [skip ci]'
+            git push origin HEAD:main
+          fi
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+      - name: Upload site
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: .
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
