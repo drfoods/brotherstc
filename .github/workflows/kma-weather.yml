@@ -4,44 +4,52 @@ on:
   push:
     branches: [main]
   schedule:
-    # 매시 17분(UTC). Actions 일정 작업은 지연될 수 있습니다.
+    # 매시 17분(UTC). 실제 실행시각은 지연될 수 있습니다.
     - cron: '17 * * * *'
   workflow_dispatch:
-
-permissions:
-  contents: write
-  pages: write
-  id-token: write
 
 concurrency:
   group: brothers-weather-pages
   cancel-in-progress: false
 
 jobs:
-  update-and-deploy:
+  build:
+    name: Refresh weather and upload Pages artifact
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      contents: write
+      pages: write
+      id-token: write
     steps:
       - name: Checkout main
         uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
       - name: Refresh KMA forecast
         env:
           KMA_SERVICE_KEY: ${{ secrets.KMA_SERVICE_KEY }}
         run: |
-          if [ -n "$KMA_SERVICE_KEY" ]; then
-            python scripts/update_kma_weather.py || echo "기상청 API 갱신 실패: 기존 weather.json 유지"
-          else
-            echo "KMA_SERVICE_KEY 미설정: 날씨 자동 갱신은 아직 시작되지 않았습니다."
+          if [ -z "$KMA_SERVICE_KEY" ]; then
+            echo '::error::KMA_SERVICE_KEY repository secret is missing.'
+            exit 1
           fi
+          python scripts/update_kma_weather.py || echo '::warning::KMA update failed; keeping existing weather.json.'
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          data = json.loads(Path('weather.json').read_text(encoding='utf-8'))
+          if not data.get('days'):
+              raise SystemExit('weather.json has no forecast days. Check the KMA API log above.')
+          print('Forecast ready:', data.get('updatedAt'), len(data['days']), 'day(s)')
+          PY
+
       - name: Commit newest public weather JSON
         run: |
           git config user.name 'github-actions[bot]'
@@ -51,12 +59,30 @@ jobs:
             git commit -m 'chore: refresh public KMA forecast [skip ci]'
             git push origin HEAD:main
           fi
+
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
-      - name: Upload site
+
+      - name: Upload site artifact
         uses: actions/upload-pages-artifact@v4
         with:
+          name: github-pages
           path: .
+
+  deploy:
+    name: Deploy GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+      actions: read
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Allow artifact metadata to become available
+        run: sleep 15
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
