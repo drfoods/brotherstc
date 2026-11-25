@@ -337,3 +337,97 @@
   .weekly-board .day-date { font-size: 11px; }
   .weekly-board .day-count { font-size: 24px; }
 }
+/* BROTHERS TC HUB v21 | 07:00 날씨·출석카드 높이 축소
+   v18 높이수정 CSS가 있어도 이 규칙을 styles.css 맨 마지막에 추가하면 적용됩니다.
+   요일/날짜/날씨 아이콘/기온/참석수는 유지, 월~금 5칸 한 줄 유지. */
+
+/* PC: 192px → 158px */
+.weekly-board .weekly-day {
+  box-sizing: border-box;
+  height: 158px;
+  min-height: 158px;
+  padding: 10px 6px 9px;
+  justify-content: flex-start;
+  overflow: visible;
+}
+.weekly-board .weekly-day > .weekday {
+  font-size: 15px;
+  line-height: 1.15;
+  flex-shrink: 0;
+}
+.weekly-board .weekly-day > .day-date {
+  font-size: 12px;
+  line-height: 1.15;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+.weekly-board .weekly-day > .bro-7am {
+  height: 44px;
+  min-height: 44px;
+  margin: 5px 0 2px;
+  flex-shrink: 0;
+}
+.weekly-board .weekly-day .bro-7am-emoji {
+  font-size: 20px;
+  line-height: 1;
+}
+.weekly-board .weekly-day .bro-7am-temp {
+  font-size: 12px;
+  line-height: 1.15;
+}
+.weekly-board .weekly-day .day-count {
+  font-size: 29px;
+  line-height: 1;
+  margin: auto 0 0;
+  flex-shrink: 0;
+}
+.weekly-board .weekly-day .day-count small {
+  display: block;
+  margin-top: 2px;
+  font-size: 10px;
+  line-height: 1.15;
+}
+
+/* 모바일: 171px → 146px; 월~금 한 줄 유지 */
+@media (max-width: 760px) {
+  .weekly-board .weekly-grid {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+  .weekly-board .weekly-day {
+    height: 146px;
+    min-height: 146px;
+    padding: 9px 2px 7px;
+  }
+  .weekly-board .weekly-day > .weekday {
+    font-size: 13px;
+    line-height: 1.1;
+  }
+  .weekly-board .weekly-day > .day-date {
+    font-size: 11px;
+    margin-top: 2px;
+    line-height: 1.1;
+  }
+  .weekly-board .weekly-day > .bro-7am {
+    height: 40px;
+    min-height: 40px;
+    margin: 4px 0 1px;
+  }
+  .weekly-board .weekly-day .bro-7am-emoji { font-size: 18px; }
+  .weekly-board .weekly-day .bro-7am-temp { font-size: 10px; }
+  .weekly-board .weekly-day .day-count { font-size: 25px; }
+  .weekly-board .weekly-day .day-count small {
+    font-size: 9px;
+    margin-top: 2px;
+  }
+}
+
+@media (max-width: 360px) {
+  .weekly-board .weekly-day {
+    height: 147px;
+    min-height: 147px;
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+  .weekly-board .weekly-day > .weekday { font-size: 12px; }
+  .weekly-board .weekly-day .day-count { font-size: 23px; }
+}
