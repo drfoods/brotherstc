@@ -191,7 +191,8 @@
       <div class="weekday-detail" aria-live="polite" aria-label="선택한 요일 참석자 명단">
         <div class="weekday-detail-head"><div><span class="detail-eyebrow">${dayName}요일 · ${fmtDay(d)}</span><h2>참석 회원 <strong>${yes.length}명</strong></h2></div><div class="detail-side"><span>미정 ${maybe.length}명 · 불참 ${no.length}명</span>${ev?`<small>${esc(ev.time||'')} ${esc(ev.title||'')}</small>`:''}</div></div>
         <div class="weekday-names">${yes.length?yes.map(m=>`<span class="weekday-name">✓ ${esc(m.name)}</span>`).join(''):'<span class="weekday-empty">아직 참석을 등록한 회원이 없습니다.</span>'}</div>
-        <div class="weekday-detail-foot"><span>본인 이름을 찾아 참석 여부를 등록하거나 변경할 수 있습니다.</span><button type="button" class="btn btn-dark btn-small" data-page="attendance">내 이름 찾아 참석 체크 ›</button></div>
+        <div class="weekday-detail-foot"><span>본인 이름을 찾아 참석 여부를 등록하거나 변경할 수 있습니다.</span><button type="button" class="btn btn-dark btn-small" data-page="attendance" aria-label="내 이름 찾아 참석 체크"><span class="bro-checkin-prefix">내 이름 찾아</span><strong class="bro-checkin-emphasis">참석 체크</strong><span class="bro-checkin-arrow" aria-hidden="true">›</span></button>
+</button></div>
       </div>
     </section>`;
   }
