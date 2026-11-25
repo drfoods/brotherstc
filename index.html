@@ -37,6 +37,14 @@
 
   <!-- Site styles and application -->
   <link rel="stylesheet" href="styles.css">
+  <!-- PC 좌측 메뉴에서 홈만 숨기기 -->
+<style>
+  @media (min-width: 761px) {
+    .side .nav .nav-btn[data-page="home"] {
+      display: none !important;
+    }
+  }
+</style>
   <script src="firebase-config.js"></script>
   <script src="app.js" defer></script>
   <script src="morning-weather.js?v=20" defer></script>
