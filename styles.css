@@ -431,3 +431,155 @@
   .weekly-board .weekly-day > .weekday { font-size: 12px; }
   .weekly-board .weekly-day .day-count { font-size: 23px; }
 }
+/* BROTHERS TC HUB v22 — mobile first-screen attendance compact layout
+   Append AFTER v18/v21 rules at the end of styles.css.
+   Keep desktop unchanged; preserve five weekday columns, morning weather,
+   attendance totals, today badge, and selected-day member names.
+*/
+@media (max-width: 760px) {
+  /* Make the top bar smaller without hiding club branding or login. */
+  .site-top {
+    height: 62px;
+    padding-top: 6px;
+    padding-bottom: 6px;
+    margin-bottom: 10px;
+  }
+  .site-top .brand-logo { width: 164px; max-height: 46px; }
+  .site-top .account { font-size: 11px; padding: 7px 8px; }
+
+  /* Remove repeated explanatory text on phones; keep the actual heading. */
+  .weekly-board {
+    padding: 12px 10px 12px;
+    margin-bottom: 10px;
+  }
+  .weekly-board .week-head {
+    gap: 5px;
+    margin-bottom: 7px;
+  }
+  .weekly-board .week-head .eyebrow { display: none; }
+  .weekly-board .week-head h1 {
+    font-size: 20px;
+    line-height: 1.22;
+    margin: 0;
+  }
+  .weekly-board .week-head p { display: none; }
+  .weekly-board .week-ctrl {
+    width: 100%;
+    gap: 5px;
+    margin: 0;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .weekly-board .week-ctrl strong { font-size: 13px; margin: 0 auto 0 4px; }
+  .weekly-board .week-arrow {
+    width: 32px; height: 32px; flex: 0 0 32px;
+    font-size: 20px;
+  }
+  .weekly-board .week-today { padding: 6px 8px; font-size: 11px; min-height: 32px; }
+
+  /* Five compact daily tiles with every data field still visible. */
+  .weekly-board .weekly-scroll { overflow: visible; padding: 6px 0 0; }
+  .weekly-board .weekly-grid {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    min-width: 0;
+    gap: 4px;
+  }
+  .weekly-board .weekly-day {
+    height: 118px;
+    min-height: 118px;
+    padding: 5px 1px 5px;
+    border-radius: 10px;
+    justify-content: flex-start;
+    overflow: visible;
+  }
+  .weekly-board .weekly-day > .weekday {
+    font-size: 13px;
+    line-height: 1.13;
+  }
+  .weekly-board .weekly-day > .day-date {
+    font-size: 11px;
+    line-height: 1.1;
+    margin-top: 2px;
+  }
+  .weekly-board .weekly-day > .bro-7am {
+    height: 32px;
+    min-height: 32px;
+    margin: 3px 0 1px;
+    gap: 0;
+    flex-shrink: 0;
+    width: 100%;
+  }
+  .weekly-board .weekly-day .bro-7am-emoji {
+    font-size: 17px;
+    line-height: 1;
+  }
+  .weekly-board .weekly-day .bro-7am-temp { font-size: 10px; line-height: 1.1; }
+  .weekly-board .weekly-day .bro-7am-missing {
+    font-size: 9px;
+    line-height: 1.2;
+    white-space: normal;
+    word-break: keep-all;
+    text-align: center;
+  }
+  .weekly-board .weekly-day .day-count {
+    font-size: 25px;
+    line-height: 1;
+    margin: auto 0 0;
+  }
+  .weekly-board .weekly-day .day-count small {
+    display: block;
+    font-size: 9px;
+    line-height: 1.1;
+    margin-top: 1px;
+  }
+  .weekly-board .today-dot {
+    top: -9px;
+    right: 1px;
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+
+  /* Move the selected-day roster up and make the name chips easier to scan. */
+  .weekly-board .weekday-detail {
+    margin-top: 8px;
+    padding: 10px 10px 9px;
+    border-radius: 12px;
+  }
+  .weekly-board .weekday-detail-head { gap: 6px; align-items: center; }
+  .weekly-board .detail-eyebrow { font-size: 10px; line-height: 1.2; }
+  .weekly-board .weekday-detail h2 {
+    font-size: 15px;
+    line-height: 1.25;
+    margin: 2px 0 0;
+  }
+  .weekly-board .weekday-detail h2 strong { font-size: 18px; }
+  .weekly-board .detail-side { font-size: 10px; }
+  .weekly-board .weekday-names {
+    padding: 8px 0;
+    gap: 4px;
+    min-height: 28px;
+  }
+  .weekly-board .weekday-name { font-size: 11px; padding: 4px 7px; }
+  .weekly-board .weekday-detail-foot {
+    padding-top: 7px;
+    gap: 5px;
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .weekly-board .weekday-detail-foot > span { display: none; }
+  .weekly-board .weekday-detail-foot .btn {
+    width: auto;
+    min-height: 32px;
+    padding: 5px 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .site-top .brand-logo { width: 145px; }
+  .weekly-board .weekly-day { height: 120px; min-height: 120px; }
+  .weekly-board .weekly-day > .weekday { font-size: 12px; }
+  .weekly-board .weekly-day .bro-7am-emoji { font-size: 16px; }
+  .weekly-board .weekly-day .day-count { font-size: 23px; }
+}
