@@ -886,3 +886,94 @@
     margin-bottom: 12px !important;
   }
 }
+/* BROTHERS TC HUB v29 — Mobile compact weather page
+   PC layout and all weather/CCTV links remain unchanged.
+   Add this block at the very END of styles.css. */
+@media (max-width: 760px) {
+  /* Weather page only: remove duplicated title / explanatory text. */
+  .main .page-heading:has(+ .tc-weather-panel) {
+    display: none !important;
+  }
+  .main .tc-weather-panel {
+    padding: 0 !important;
+    margin-top: 0 !important;
+    border-radius: 17px !important;
+    overflow: hidden !important;
+  }
+  /* Keep a single concise weather banner. */
+  .main .tc-weather-intro {
+    padding: 15px 15px !important;
+    min-height: 0 !important;
+    background: linear-gradient(110deg, #1a3222, #28452e) !important;
+  }
+  .main .tc-weather-intro .tc-weather-kicker { display: none !important; }
+  /* Undo v28's generated title and show the real title + subtitle. */
+  .main .tc-weather-intro::before { content: none !important; display: none !important; }
+  .main .tc-weather-intro h2 {
+    display: block !important;
+    color: #fff !important;
+    margin: 0 0 5px !important;
+    font-size: clamp(19px, 5.1vw, 23px) !important;
+    line-height: 1.3 !important;
+    font-weight: 900 !important;
+    letter-spacing: -0.5px !important;
+  }
+  .main .tc-weather-intro p {
+    display: block !important;
+    margin: 0 !important;
+    color: #d7efd0 !important;
+    font-size: clamp(11px, 3vw, 13px) !important;
+    line-height: 1.45 !important;
+    font-weight: 500 !important;
+    word-break: keep-all;
+  }
+  /* Put both services side by side, even on phones. */
+  .main .tc-weather-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 9px !important;
+    padding: 12px !important;
+  }
+  .main .tc-weather-card {
+    min-width: 0 !important;
+    min-height: 175px !important;
+    padding: 13px 11px !important;
+    border-radius: 14px !important;
+  }
+  .main .tc-weather-icon {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 22px !important;
+    margin: 0 0 9px !important;
+    border-radius: 11px !important;
+  }
+  .main .tc-weather-type {
+    font-size: 10px !important;
+    line-height: 1.45 !important;
+    letter-spacing: -0.15px !important;
+    word-break: keep-all;
+  }
+  .main .tc-weather-card h3 {
+    margin: 6px 0 11px !important;
+    font-size: clamp(13px, 3.7vw, 16px) !important;
+    line-height: 1.35 !important;
+    letter-spacing: -0.45px !important;
+    word-break: keep-all;
+  }
+  .main .tc-weather-card p {
+    display: none !important;
+  }
+  .main .tc-weather-open {
+    width: 100%;
+    min-height: 42px !important;
+    padding: 7px 5px !important;
+    font-size: clamp(11px, 3vw, 13px) !important;
+    line-height: 1.3 !important;
+    letter-spacing: -0.45px;
+    text-align: center;
+    white-space: normal;
+    word-break: keep-all;
+    border-radius: 10px !important;
+  }
+  .main .tc-weather-footnote { display: none !important; }
+}
