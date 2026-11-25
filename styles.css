@@ -724,3 +724,85 @@
   .side .nav .nav-btn { font-size: 10px; min-height: 59px; }
   .side .nav .nav-btn .ni { font-size: 24px; line-height: 27px; }
 }
+/* BROTHERS TC HUB v24 — PC + mobile check-in button emphasis.
+   Append this block after the v23 CSS, at the END of styles.css.
+   Requires the v24 one-line markup change in app.js to enlarge only "참석 체크".
+*/
+
+/* Keep the same bright lime check-in style on PC, not just mobile. */
+.weekly-board .weekday-detail-foot > button.btn[data-page="attendance"] {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 52px;
+  padding: 11px 21px;
+  border: 2px solid #91bf31;
+  border-radius: 14px;
+  background: #c9f653;
+  color: #173019;
+  box-shadow: 0 3px 0 #86b02e, 0 7px 17px rgba(47, 90, 32, .14);
+  font-size: 14px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+.weekly-board .weekday-detail-foot > button.btn[data-page="attendance"]::before {
+  content: '✓';
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 27px;
+  width: 27px;
+  height: 27px;
+  border-radius: 50%;
+  background: #1d4025;
+  color: #d7ff78;
+  font-size: 17px;
+  font-weight: 900;
+  line-height: 1;
+}
+.weekly-board .weekday-detail-foot .bro-checkin-prefix {
+  font-size: 14px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+.weekly-board .weekday-detail-foot .bro-checkin-emphasis {
+  font-size: 20px;
+  font-weight: 950;
+  letter-spacing: -.6px;
+  line-height: 1.1;
+  white-space: nowrap;
+  color: #153b1f;
+}
+.weekly-board .weekday-detail-foot .bro-checkin-arrow {
+  font-size: 20px;
+  font-weight: 900;
+  line-height: 1;
+}
+.weekly-board .weekday-detail-foot > button.btn[data-page="attendance"]:hover {
+  background: #bdf040;
+  border-color: #79aa27;
+}
+.weekly-board .weekday-detail-foot > button.btn[data-page="attendance"]:focus-visible {
+  outline: 3px solid #27834a;
+  outline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .weekly-board .weekday-detail-foot > button.btn[data-page="attendance"] {
+    width: 100%;
+    min-height: 48px;
+    padding: 8px 7px;
+    gap: 6px;
+  }
+  .weekly-board .weekday-detail-foot .bro-checkin-prefix { font-size: 13px; }
+  .weekly-board .weekday-detail-foot .bro-checkin-emphasis { font-size: 18px; }
+  .weekly-board .weekday-detail-foot .bro-checkin-arrow { font-size: 18px; }
+  .weekly-board .weekday-detail-foot > button.btn[data-page="attendance"]::before {
+    width: 24px; height: 24px; flex-basis: 24px; font-size: 15px;
+  }
+}
+@media (max-width: 360px) {
+  .weekly-board .weekday-detail-foot > button.btn[data-page="attendance"] { gap: 4px; }
+  .weekly-board .weekday-detail-foot .bro-checkin-prefix { font-size: 12px; }
+  .weekly-board .weekday-detail-foot .bro-checkin-emphasis { font-size: 17px; }
+}
