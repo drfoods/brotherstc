@@ -583,3 +583,144 @@
   .weekly-board .weekly-day .bro-7am-emoji { font-size: 16px; }
   .weekly-board .weekly-day .day-count { font-size: 23px; }
 }
+/* BROTHERS TC HUB v23 | CTA + MOBILE NAV HIGHLIGHT
+   Append after v22 at the END of styles.css. No JS/Firebase changes.
+*/
+
+/* The member check-in action must stand out under the selected-day roster. */
+.weekly-board .weekday-detail-foot > button.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 10px 17px;
+  border: 2px solid #9ac62e;
+  border-radius: 13px;
+  background: #c9f653;
+  color: #173019;
+  box-shadow: 0 3px 0 #86b02e, 0 6px 16px rgba(62, 100, 37, .15);
+  font-size: 14px;
+  font-weight: 900;
+  letter-spacing: -.35px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.weekly-board .weekday-detail-foot > button.btn::before {
+  content: '✓';
+  display: inline-grid;
+  place-items: center;
+  flex: 0 0 26px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #1d4025;
+  color: #d7ff78;
+  font-size: 17px;
+  font-weight: 950;
+  line-height: 1;
+}
+.weekly-board .weekday-detail-foot > button.btn:hover {
+  background: #b8ef38;
+  border-color: #86b72a;
+}
+.weekly-board .weekday-detail-foot > button.btn:active {
+  box-shadow: 0 1px 0 #86b02e;
+  transform: translateY(2px);
+}
+.weekly-board .weekday-detail-foot > button.btn:focus-visible {
+  outline: 3px solid #358e54;
+  outline-offset: 3px;
+}
+
+/* Phone bottom navigation: larger, colored icons with a clear active tab. */
+@media (max-width: 760px) {
+  body { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  .side {
+    padding: 7px max(6px, env(safe-area-inset-right)) calc(7px + env(safe-area-inset-bottom));
+    background: #f9fcf7;
+    border-top: 1px solid #dbe6d5;
+    box-shadow: 0 -5px 22px rgba(19, 46, 22, .12);
+  }
+  .side .nav {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 3px;
+    align-items: stretch;
+    justify-content: stretch;
+  }
+  .side .nav .nav-btn {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    min-height: 61px;
+    padding: 6px 0 5px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    border: 1px solid transparent;
+    border-radius: 12px;
+    background: transparent;
+    color: #536b58;
+    font-size: 11px;
+    font-weight: 850;
+    letter-spacing: -.3px;
+    line-height: 1.16;
+    white-space: nowrap;
+    text-align: center;
+    text-decoration: none;
+  }
+  .side .nav .nav-btn .ni {
+    display: block;
+    width: 100%;
+    font-size: 26px;
+    font-weight: 900;
+    line-height: 29px;
+    text-align: center;
+  }
+  .side .nav .nav-btn:nth-child(1) .ni { color: #25794a; }
+  .side .nav .nav-btn:nth-child(2) .ni { color: #a97618; }
+  .side .nav .nav-btn:nth-child(3) .ni { color: #4d7f45; }
+  .side .nav .nav-btn:nth-child(4) .ni { color: #376fa2; }
+  .side .nav .nav-btn:nth-child(5) .ni { color: #d28b1d; }
+  .side .nav .nav-btn:nth-child(6) .ni { color: #bd565c; }
+  .side .nav .nav-btn:hover { background: #edf6e6; }
+  .side .nav .nav-btn.active,
+  .side .nav .nav-btn[aria-current="page"],
+  .app-shell:has(.weekly-board:not(.on-attendance)) .side .nav .nav-btn:first-child {
+    background: #ccfa62;
+    color: #173019;
+    border-color: #a1ce42;
+    box-shadow: inset 0 0 0 1px #b8e65e, 0 2px 8px rgba(65, 111, 31, .16);
+    font-weight: 950;
+  }
+  .side .nav .nav-btn.active .ni,
+  .side .nav .nav-btn[aria-current="page"] .ni,
+  .app-shell:has(.weekly-board:not(.on-attendance)) .side .nav .nav-btn:first-child .ni {
+    color: #152f1a;
+    transform: scale(1.09);
+  }
+  .side .nav .nav-btn:focus-visible {
+    outline: 2px solid #327c45;
+    outline-offset: -2px;
+  }
+  .weekly-board .weekday-detail-foot > button.btn {
+    width: 100%;
+    min-height: 43px;
+    padding: 7px 10px;
+    font-size: 13px;
+    white-space: normal;
+  }
+  .weekly-board .weekday-detail-foot > button.btn::before {
+    flex-basis: 23px;
+    width: 23px;
+    height: 23px;
+    font-size: 15px;
+  }
+}
+@media (max-width: 360px) {
+  .side .nav { gap: 1px; }
+  .side .nav .nav-btn { font-size: 10px; min-height: 59px; }
+  .side .nav .nav-btn .ni { font-size: 24px; line-height: 27px; }
+}
