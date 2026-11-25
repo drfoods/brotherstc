@@ -859,3 +859,20 @@
   .side .nav .nav-btn .ni { font-size: 25px; line-height: 28px; }
   .weekly-board .weekday-detail-foot .bro-checkin-guide { font-size: 11px; }
 }
+/* BROTHERS TC HUB v26 — Desktop 6 tabs / Mobile 5 tabs.
+   Append at the END of styles.css after v25 (do not replace the file). */
+/* PC side: 출석 · 회비 · 날씨 · 채널 · 회원 · 공지 (hide 홈).
+   Brand logo still links to 홈; member/notice cards also remain on 홈. */
+@media (min-width: 761px) {
+  .side .nav > .nav-btn[data-page="home"] { display: none !important; }
+}
+/* Mobile bottom: 출석 · 회비 · 홈 · 날씨 · 채널 (hide 회원/공지). */
+@media (max-width: 760px) {
+  .side .nav > .nav-btn[data-page="members"],
+  .side .nav > .nav-btn[data-page="notices"] { display: none !important; }
+  .side .nav { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; }
+}
+/* Fees heading is now short: keep it on a single line at mobile sizes. */
+@media (max-width: 760px) {
+  .page-heading h1 { word-break: keep-all; }
+}
