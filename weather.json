@@ -2,8 +2,8 @@
   "source": "기상청 단기예보 조회서비스 (data.go.kr)",
   "place": "파주스타디움 테니스장 인근",
   "referenceTime": "07:00 Asia/Seoul (일부 날짜 최근접 오전 시각)",
-  "updatedAt": "2026-11-25T22:32+09:00",
-  "forecastBase": "2026-11-25T20:00+09:00",
+  "updatedAt": "2026-11-26T00:17+09:00",
+  "forecastBase": "2026-11-25T23:00+09:00",
   "grid": {
     "nx": 56,
     "ny": 131
@@ -22,13 +22,6 @@
       "icon": "cloudy",
       "time": "0700",
       "label": "07시 예보"
-    },
-    "2026-11-25": {
-      "temp": -2.0,
-      "pop": 20,
-      "icon": "partly",
-      "time": "0900",
-      "label": "근접 09시 예보"
     }
   }
 }
