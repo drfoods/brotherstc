@@ -806,3 +806,56 @@
   .weekly-board .weekday-detail-foot .bro-checkin-prefix { font-size: 12px; }
   .weekly-board .weekday-detail-foot .bro-checkin-emphasis { font-size: 17px; }
 }
+/* BROTHERS TC HUB v25 — attendance first + five navigation items
+ * Add AFTER the existing v24/v23/v22 rules in styles.css.
+ * This changes presentation only; the app.js supplied in this package provides the new nav and labels.
+ */
+.attendance-admin-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin: 10px 0 14px;
+}
+.weekly-board .weekday-detail-foot > button.btn[data-page="attendance"] {
+  gap: 6px;
+  flex-wrap: wrap;
+  align-content: center;
+  white-space: normal;
+}
+.weekly-board .weekday-detail-foot .bro-checkin-guide {
+  color: #326030;
+  font-size: 13px;
+  font-weight: 850;
+  white-space: nowrap;
+}
+@media (max-width: 760px) {
+  /* Five equally sized tabs: 출석 · 회비 · 홈 · 날씨 · 채널 */
+  .side .nav { grid-template-columns: repeat(5, minmax(0, 1fr)) !important; gap: 4px; }
+  .side .nav .nav-btn { min-width: 0; }
+  .side .nav .nav-btn .ni { font-size: 27px; line-height: 30px; }
+  .side .nav .nav-btn:nth-child(1) .ni { color: #25794a; }
+  .side .nav .nav-btn:nth-child(2) .ni { color: #a97618; }
+  .side .nav .nav-btn:nth-child(3) .ni { color: #4874ad; }
+  .side .nav .nav-btn:nth-child(4) .ni { color: #ce8a19; }
+  .side .nav .nav-btn:nth-child(5) .ni { color: #ad565e; }
+  /* Older v23 CSS selected the attendance tab on the HOME dashboard too.
+     Reset that old rule: only the real current page should have the lime highlight. */
+  .app-shell:has(.weekly-board:not(.on-attendance)) .side .nav .nav-btn:first-child:not(.active) {
+    background: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    color: #536b58;
+    font-weight: 850;
+  }
+  .app-shell:has(.weekly-board:not(.on-attendance)) .side .nav .nav-btn:first-child:not(.active) .ni {
+    color: #25794a;
+    transform: none;
+  }
+  .weekly-board .weekday-detail-foot .bro-checkin-guide { font-size: 12px; }
+  .weekly-board .weekday-detail-foot > button.btn[data-page="attendance"] { gap: 5px; padding-left: 7px; padding-right: 7px; }
+}
+@media (max-width: 360px) {
+  .side .nav { gap: 2px; }
+  .side .nav .nav-btn { font-size: 11px; }
+  .side .nav .nav-btn .ni { font-size: 25px; line-height: 28px; }
+  .weekly-board .weekday-detail-foot .bro-checkin-guide { font-size: 11px; }
+}
