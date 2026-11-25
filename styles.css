@@ -876,3 +876,13 @@
 @media (max-width: 760px) {
   .page-heading h1 { word-break: keep-all; }
 }
+/* BROTHERS TC HUB v27: 모바일 회비 제목 아래 안내문구 숨김 */
+/* 회비 화면에서만 작동: 제목 바로 다음 요소가 잔액 카드인 경우 */
+@media (max-width: 760px) {
+  .main .page-heading:has(+ .tc-balance-feature-v12) p {
+    display: none !important;
+  }
+  .main .page-heading:has(+ .tc-balance-feature-v12) {
+    margin-bottom: 12px !important;
+  }
+}
