@@ -1,4 +1,4 @@
-/* BROTHERS TC – 공식 기상청 오전 7시 날씨 카드 v16
+/* BROTHERS TC – 공식 기상청 오전 7시 날씨 카드 v20 (강수확률 표시 제거)
    기존 app.js/Firebase/출석 로직은 수정하지 않습니다.
    GitHub Actions가 게시한 weather.json을 15분마다 재확인합니다.
 */
@@ -16,15 +16,13 @@
       min-height:55px; margin:2px 0 4px; line-height:1.18; pointer-events:none; width:100%;}
     .weekly-day .bro-7am-emoji {font-size:21px; line-height:1.06;}
     .weekly-day .bro-7am-temp {font-size:12px; font-weight:800; color:inherit; font-variant-numeric:tabular-nums;}
-    .weekly-day .bro-7am-pop {font-size:11px; font-weight:700; color:#41758b;}
-    .weekly-day.selected .bro-7am-pop {color:#d6f2f8;}
     .weekly-day .bro-7am-missing {font-size:11px; font-weight:600; color:#718174;}
     .weekly-day.selected .bro-7am-missing {color:#c8e6d0;}
     @media(max-width:760px){
       .weekly-day .bro-7am {min-height:49px;margin:2px 0 3px;}
       .weekly-day .bro-7am-emoji {font-size:18px;}
       .weekly-day .bro-7am-temp {font-size:10.5px;}
-      .weekly-day .bro-7am-pop,.weekly-day .bro-7am-missing {font-size:9px;}
+      .weekly-day .bro-7am-missing {font-size:9px;}
     }
     @media(max-width:380px){.weekly-day .bro-7am-emoji{font-size:16px}.weekly-day .bro-7am-temp{font-size:9px}}
   `;
@@ -58,12 +56,6 @@
         const t = Number(item.temp);
         temp.textContent = `${Number.isInteger(t) ? t : t.toFixed(1)}℃`;
         box.append(icon, temp);
-        if(item.pop !== undefined && item.pop !== null && Number.isFinite(Number(item.pop))) {
-          const rain = document.createElement('span');
-          rain.className = 'bro-7am-pop';
-          rain.textContent = `☂ ${Math.round(Number(item.pop))}%`;
-          box.appendChild(rain);
-        }
         const refTime = item.time || '0700';
         box.title = `파주스타디움 인근 · 기상청 ${refTime.slice(0, 2)}:${refTime.slice(2)} 예보 · ${item.label || ''} · 업데이트 ${lastUpdated || '미확인'}`;
       }
