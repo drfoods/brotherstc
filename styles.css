@@ -977,3 +977,155 @@
   }
   .main .tc-weather-footnote { display: none !important; }
 }
+/* ============================================================
+   BROTHERS TC HUB v30 | 모바일 하단 5메뉴 딥그린·화이트·라임
+   기존 styles.css 맨 아래에 추가. app.js / index.html 수정 불필요.
+   디자인만 변경하며 PC 메뉴에는 영향을 주지 않습니다.
+   ============================================================ */
+@media (max-width: 760px) {
+  /* 기존 회원/공지 메뉴는 홈 안에 유지, 하단에는 5개만. */
+  .side .nav > .nav-btn[data-page="members"],
+  .side .nav > .nav-btn[data-page="notices"] {
+    display: none !important;
+  }
+
+  body {
+    padding-bottom: calc(101px + env(safe-area-inset-bottom)) !important;
+  }
+  .side {
+    background: #073e30 !important;
+    border-top: 3px solid #bdf45a !important;
+    padding: 8px max(6px, env(safe-area-inset-right)) calc(8px + env(safe-area-inset-bottom)) !important;
+    box-shadow: 0 -5px 20px rgba(4, 31, 22, .22) !important;
+  }
+  .side .side-panel {
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+  }
+  .side .nav {
+    display: grid !important;
+    grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    align-items: stretch !important;
+  }
+  .side .nav > .nav-btn {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
+    min-width: 0 !important;
+    min-height: 79px !important;
+    width: 100% !important;
+    padding: 9px 1px 7px !important;
+    gap: 5px !important;
+    border-radius: 15px !important;
+    border: 1.5px solid rgba(234, 255, 241, .28) !important;
+    background: #0a4938 !important;
+    color: #ffffff !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    letter-spacing: -.3px !important;
+    line-height: 1.12 !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+    text-decoration: none !important;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.055) !important;
+    transform: none !important;
+  }
+  .side .nav > .nav-btn .ni {
+    display: block !important;
+    position: relative !important;
+    flex: 0 0 32px !important;
+    width: 34px !important;
+    height: 32px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 0 !important; /* 기존 기호를 숨기고 선명한 벡터 아이콘 표시 */
+    line-height: 0 !important;
+    color: inherit !important;
+    transform: none !important;
+  }
+  .side .nav > .nav-btn .ni::before {
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-color: currentColor;
+    -webkit-mask-image: var(--bro-v30-icon);
+    mask-image: var(--bro-v30-icon);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+  .side .nav > .nav-btn.active,
+  .side .nav > .nav-btn[aria-current="page"] {
+    background: #cefa68 !important;
+    border-color: #deff9b !important;
+    color: #103c27 !important;
+    box-shadow: 0 2px 0 #84b33f, 0 0 0 1px rgba(255,255,255,.14) !important;
+  }
+  .side .nav > .nav-btn:not(.active):not([aria-current="page"]):hover {
+    background: #125743 !important;
+    color: #ffffff !important;
+  }
+  .side .nav > .nav-btn:focus-visible {
+    outline: 3px solid #e6ffa6 !important;
+    outline-offset: -3px !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .side .nav > .nav-btn[data-page="attendance"] .ni {
+    --bro-v30-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222.3%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%223.5%22%20y%3D%225%22%20width%3D%2217%22%20height%3D%2216%22%20rx%3D%222.4%22%2F%3E%3Cpath%20d%3D%22M7.5%202.5v5M16.5%202.5v5M3.5%209.5h17M7.5%2015l3.1%203.1%206-6%22%2F%3E%3C%2Fsvg%3E");
+  }
+}
+
+@media (max-width: 760px) {
+  .side .nav > .nav-btn[data-page="fees"] .ni {
+    --bro-v30-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222.35%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M3.5%204.5l4.2%2015%204.3-10.5%204.3%2010.5%204.2-15M2.5%2010.5h19M2.5%2014.5h19%22%2F%3E%3C%2Fsvg%3E");
+  }
+}
+
+@media (max-width: 760px) {
+  .side .nav > .nav-btn[data-page="home"] .ni {
+    --bro-v30-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222.45%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22M2.5%2011.2L12%203l9.5%208.2M5%2010v10h14V10M9%2020v-6h6v6%22%2F%3E%3C%2Fsvg%3E");
+  }
+}
+
+@media (max-width: 760px) {
+  .side .nav > .nav-btn[data-page="weather"] .ni {
+    --bro-v30-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222.45%22%20stroke-linecap%3D%22round%22%3E%3Ccircle%20cx%3D%2212%22%20cy%3D%2212%22%20r%3D%224%22%2F%3E%3Cpath%20d%3D%22M12%202v2M12%2020v2M2%2012h2M20%2012h2M4.9%204.9l1.45%201.45M17.65%2017.65l1.45%201.45M4.9%2019.1l1.45-1.45M17.65%206.35l1.45-1.45%22%2F%3E%3C%2Fsvg%3E");
+  }
+}
+
+@media (max-width: 760px) {
+  .side .nav > .nav-btn[aria-label*="유튜브"] .ni {
+    --bro-v30-icon: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22black%22%20stroke-width%3D%222.25%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Crect%20x%3D%222.2%22%20y%3D%225%22%20width%3D%2219.6%22%20height%3D%2214%22%20rx%3D%223.4%22%2F%3E%3Cpath%20d%3D%22M10%209v6l5-3z%22%20fill%3D%22black%22%20stroke%3D%22none%22%2F%3E%3C%2Fsvg%3E");
+  }
+}
+
+
+/* 폭이 작은 휴대폰에서도 다섯 버튼을 한 줄로 유지. */
+@media (max-width: 360px) {
+  .side .nav { gap: 3px !important; }
+  .side .nav > .nav-btn {
+    min-height: 74px !important;
+    padding: 7px 0 6px !important;
+    gap: 4px !important;
+    font-size: 12px !important;
+    border-radius: 12px !important;
+  }
+  .side .nav > .nav-btn .ni {
+    flex-basis: 29px !important;
+    width: 30px !important;
+    height: 29px !important;
+  }
+  body { padding-bottom: calc(96px + env(safe-area-inset-bottom)) !important; }
+}
