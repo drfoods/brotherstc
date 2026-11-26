@@ -1,8 +1,8 @@
 {
   "id": "/brotherstc/",
-  "name": "브라더스 테니스클럽 HUB",
-  "short_name": "브라더스TC",
-  "description": "브라더스 테니스클럽 출석·회비·공지·날씨 바로 확인",
+  "name": "브라더스",
+  "short_name": "브라더스",
+  "description": "브라더스 테니스클럽 HUB - 출석·회비·날씨·공지",
   "lang": "ko",
   "start_url": "/brotherstc/",
   "scope": "/brotherstc/",
