@@ -200,7 +200,7 @@
     const dayName=weekday[new Date(d+'T12:00:00').getDay()];
     const dayOfWeek=new Date(today()+'T12:00:00').getDay();
     const weekend=dayOfWeek===0||dayOfWeek===6;
-    const periodTitle=state.weekOffset===0?(weekend?'다음 주 참석 현황':'이번 주 참석 현황'):'주간 참석 현황';
+    const periodTitle = '주간 참석현황';
     const defaultWeekLabel=weekend?'다음 주':'이번 주';
     return `<section class="weekly-board panel ${compact?'on-attendance':''}" aria-label="평일 참석 현황">
       <div class="week-head"><div><div class="eyebrow">BROTHERS WEEKLY ATTENDANCE</div><h1>🎾 ${periodTitle}</h1><p>월요일부터 금요일까지 한눈에 확인하세요. 요일을 누르면 아래에 참석자 명단이 표시됩니다.</p></div>
