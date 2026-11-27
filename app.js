@@ -1,4 +1,5 @@
-/* BROTHERS TC HUB v25: simplified attendance & 5-item navigation (2026-11-25) */
+/* BROTHERS TC HUB v34: Saturday 00:00 next-week attendance default (2026-11-27) */
+/* Based on v29 app.js; retains weather, fees, member, admin, and navigation features. */
 /* BROTHERS_TC_V14_BANK_ACCOUNT_GUIDE_20261124 */
 /* BROTHERS_TC_V12_PC_BALANCE_VISIBLE_20261124 */
 /* BROTHERS TC CLUB HUB · no-login member attendance, admin-only management */
@@ -28,9 +29,24 @@
   const monthNow = () => today().slice(0,7);
   const datePlus = n => { const d=new Date(today()+'T12:00:00');d.setDate(d.getDate()+n);return [d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');};
   const dstr=d=>[d.getFullYear(),String(d.getMonth()+1).padStart(2,'0'),String(d.getDate()).padStart(2,'0')].join('-');
-  function weekDays(offset=state.weekOffset){const d=new Date(today()+'T12:00:00');d.setDate(d.getDate()-((d.getDay()+6)%7)+offset*7);return Array.from({length:5},(_,i)=>{const n=new Date(d);n.setDate(n.getDate()+i);return dstr(n);});}
+  // Default viewing week rolls forward at Saturday 00:00 (device local time).
+  // Saturday/Sunday show the following Monday-Friday; weekdays show their own week.
+  // weekOffset is relative to that default and keeps the previous/next arrows working.
+  function defaultWeekMonday(){
+    const d=new Date(today()+'T12:00:00');
+    const day=d.getDay();
+    const daysSinceMonday=(day+6)%7;
+    const followingWeek=(day===6||day===0)?7:0;
+    d.setDate(d.getDate()-daysSinceMonday+followingWeek);
+    return d;
+  }
+  function weekDays(offset=state.weekOffset){
+    const d=defaultWeekMonday();
+    d.setDate(d.getDate()+offset*7);
+    return Array.from({length:5},(_,i)=>{const n=new Date(d);n.setDate(n.getDate()+i);return dstr(n);});
+  }
   const weekdayOnly=d=>{const n=new Date(d+'T12:00:00').getDay();return n>=1&&n<=5;};
-  const initialDate=()=>weekdayOnly(today())?today():weekDays(0)[0];
+  const initialDate=()=>weekdayOnly(today())?today():dstr(defaultWeekMonday());
   const dayKey=date=>'day_'+date;
   const weekday=['일','월','화','수','목','금','토'];
   function eventOfDay(date){return eventsSorted().find(x=>x.date===date)||null;}
@@ -182,9 +198,13 @@
     const no=responseMembers(d,'no');
     const ev=eventOfDay(d);
     const dayName=weekday[new Date(d+'T12:00:00').getDay()];
+    const dayOfWeek=new Date(today()+'T12:00:00').getDay();
+    const weekend=dayOfWeek===0||dayOfWeek===6;
+    const periodTitle=state.weekOffset===0?(weekend?'다음 주 참석 현황':'이번 주 참석 현황'):'주간 참석 현황';
+    const defaultWeekLabel=weekend?'다음 주':'이번 주';
     return `<section class="weekly-board panel ${compact?'on-attendance':''}" aria-label="평일 참석 현황">
-      <div class="week-head"><div><div class="eyebrow">BROTHERS WEEKLY ATTENDANCE</div><h1>🎾 이번 주 참석 현황</h1><p>월요일부터 금요일까지 한눈에 확인하세요. 요일을 누르면 아래에 참석자 명단이 표시됩니다.</p></div>
-        <div class="week-ctrl"><button class="week-arrow" data-week="prev" aria-label="이전 주">‹</button><strong>${weekLabel(days)}</strong><button class="week-arrow" data-week="next" aria-label="다음 주">›</button><button class="week-today" data-week="today">이번 주</button></div>
+      <div class="week-head"><div><div class="eyebrow">BROTHERS WEEKLY ATTENDANCE</div><h1>🎾 ${periodTitle}</h1><p>월요일부터 금요일까지 한눈에 확인하세요. 요일을 누르면 아래에 참석자 명단이 표시됩니다.</p></div>
+        <div class="week-ctrl"><button class="week-arrow" data-week="prev" aria-label="이전 주">‹</button><strong>${weekLabel(days)}</strong><button class="week-arrow" data-week="next" aria-label="다음 주">›</button><button class="week-today" data-week="today">${defaultWeekLabel}</button></div>
       </div>
       <div class="weekly-scroll"><div class="weekly-grid">
        ${days.map(date=>{const count=countFor(date);const isSelected=date===d;const isToday=date===today();return `<button type="button" class="weekly-day ${isSelected?'selected':''} ${isToday?'today':''} ${count?'has-people':''}" data-date="${date}" aria-pressed="${isSelected}" aria-label="${fmtDay(date)}, 참석 ${count}명, 명단 보기"><span class="weekday">${weekday[new Date(date+'T12:00:00').getDay()]}</span><span class="day-date">${Number(date.slice(8))}<small>일</small></span><span class="day-count">${count}<small>명 참석</small></span>${isToday?'<span class="today-dot">오늘</span>':''}</button>`;}).join('')}
@@ -464,6 +484,23 @@
   }
   addClubBankStyles();
   addBalanceStyles();
+
+  // Keep an already-open tab on the correct week when Friday turns to Saturday.
+  // Browser timers may be paused in the background, so also recheck on return.
+  let defaultWeekStamp=dstr(defaultWeekMonday());
+  function refreshDefaultWeekOnBoundary(){
+    const nextStamp=dstr(defaultWeekMonday());
+    if(nextStamp===defaultWeekStamp)return;
+    defaultWeekStamp=nextStamp;
+    state.weekOffset=0;
+    state.selectedDate=initialDate();
+    // Avoid interrupting a member who is currently completing a form/modal.
+    if(state.ready&&(state.page==='home'||state.page==='attendance')&&!document.querySelector('.modal-shade'))render();
+  }
+  window.setInterval(refreshDefaultWeekOnBoundary,15000);
+  document.addEventListener('visibilitychange',()=>{if(!document.hidden)refreshDefaultWeekOnBoundary();});
+  window.addEventListener('focus',refreshDefaultWeekOnBoundary);
+
   document.addEventListener('click',clickHandler);document.addEventListener('change',changeHandler);document.addEventListener('input',inputHandler);
   startFirebase();
 })();
